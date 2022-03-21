@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install yq
+        run: |
+          brew install yq
+      - name: test yq
+        run: |
+          yq --version
+        shell: pwsh
