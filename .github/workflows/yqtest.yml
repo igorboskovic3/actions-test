@@ -38,7 +38,7 @@ jobs:
          }
          
          $yqVersion = Run-Command "yq --version" 
-         return "YQ $yqVersion"
+         return "$yqVersion"
          
       
         shell: pwsh
