@@ -40,5 +40,5 @@ jobs:
          $yqVersion = Run-Command "yq --version" | Take-Part -Part 3
          return "YQ $yqVersion"
          }
-         Write-Output "YQ $yqVersion"
+         Write-Output $yqVersion
         shell: pwsh
