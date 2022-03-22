@@ -35,7 +35,7 @@ jobs:
          $stdout = & bash -c "${Command} ${redirectOutputArguments}"
 
          return $stdout
-         
+         }
          function Get-YqVersion {
          $yqVersion = Run-Command "yq --version" | Take-Part -Part 3
          return "YQ $yqVersion"
