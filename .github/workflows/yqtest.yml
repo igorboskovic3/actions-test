@@ -37,7 +37,7 @@ jobs:
          return $stdout
          }
          
-         $yqVersion = Run-Command "yq --version" | Take-Part -Part 3
+         $yqVersion = Run-Command "yq --version" 
          return "YQ $yqVersion"
          
       
