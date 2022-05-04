@@ -1,2 +1,0 @@
-$ghcUpVersion = Run-Command "ghcup --version" | Take-Part -Part 5
-    return "GHCup $ghcUpVersion"
