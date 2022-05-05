@@ -7,9 +7,6 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - name: install ghcup
-        run: |
-          brew install ghcup
       - name: test ghcup
         run: |
          function Take-Part {
