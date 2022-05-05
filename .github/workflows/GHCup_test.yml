@@ -33,7 +33,7 @@ jobs:
          return $stdout
          }
          
-         $ghcUpVersion = Run-Command "ghcup --version" 
+         $ghcUpVersion = Run-Command "ghcup --version" | Take-Part -Part 5 
          return "GHCup $ghcUpVersion"
          
       
