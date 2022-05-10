@@ -1,4 +1,17 @@
-curl -Lo bicep.bin https://github.com/Azure/bicep/releases/download/v0.5.6/bicep-linux-x64
-chmod +x ./bicep.bin
-sudo mv ./bicep.bin /usr/local/bin/bicep
-bicep –version
+name: CI
+
+on: [push]
+
+jobs:
+  macos:
+    runs-on: ubuntu18.04-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test biceps
+        run: |
+         curl -Lo bicep.bin https://github.com/Azure/bicep/releases/download/v0.5.6/bicep-linux-x64
+         chmod +x ./bicep.bin
+         sudo mv ./bicep.bin /usr/local/bin/bicep
+         bicep –version
+         
+   
