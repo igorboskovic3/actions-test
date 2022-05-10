@@ -13,5 +13,5 @@ jobs:
          chmod +x ./bicep.bin
          sudo mv ./bicep.bin /usr/local/bin/bicep
          bicep –version
-         shell: bash
-   
+         
+     shell: bash
