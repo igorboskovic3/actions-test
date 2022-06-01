@@ -8,20 +8,59 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install edgedriver
-        run: |  
-         EDGE_INSTALLATION_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
-         EDGE_VERSION=$("$EDGE_INSTALLATION_PATH" --version | cut -d' ' -f 3)
-         EDGE_VERSION_MAJOR=$(echo $EDGE_VERSION | cut -d'.' -f 1)
-         echo "Version of Microsoft Edge: ${EDGE_VERSION}"
-         https://msedgedriver.azureedge.net/102.0.1245.25/edgedriver_mac64.zip "." "edgedriver.zip"
-         APPLICATION="/usr/local/bin/msedgedriver"
-         EDGEDRIVER_DIR="/usr/local/share/edge_driver"
-         EDGEDRIVER_BIN="$EDGEDRIVER_DIR/msedgedriver"
+        run: |
+          download_with_retries(){
+          # Due to restrictions of bash functions, positional arguments are used here.
+          # In case if you using latest argument NAME, you should also set value to all previous parameters.
+          # Example: download_with_retries $ANDROID_SDK_URL "." "android_sdk.zip"
+          local URL="$1"
+          local DEST="${2:-.}"
+          local NAME="${3:-${URL##*/}}"
+          local COMPRESSED="$4"
 
-         mkdir -p $EDGEDRIVER_DIR
+          if [[ $COMPRESSED == "compressed" ]]; then
+          local COMMAND="curl $URL -4 -sL --compressed -o '$DEST/$NAME' -w '%{http_code}'"
+          else
+          local COMMAND="curl $URL -4 -sL -o '$DEST/$NAME' -w '%{http_code}'"
+          fi
 
-         unzip "edgedriver.zip" -d $EDGEDRIVER_DIR
-         ln -s "$EDGEDRIVER_BIN" $APPLICATION
-         echo "export EDGEWEBDRIVER=${EDGEDRIVER_DIR}" >> "${HOME}/.bashrc"
-         popd > /dev/null
+          echo "Downloading '$URL' to '${DEST}/${NAME}'..."
+          retries=20
+          interval=30
+          while [ $retries -gt 0 ]; do
+          ((retries--))
+          # Temporary disable exit on error to retry on non-zero exit code
+          set +e
+          http_code=$(eval $COMMAND)
+          exit_code=$?
+          if [ $http_code -eq 200 ] && [ $exit_code -eq 0 ]; then
+          echo "Download completed"
+          return 0
+          else
+          echo "Error — Either HTTP response code for '$URL' is wrong - '$http_code' or exit code is not 0 - '$exit_code'. Waiting $interval seconds before the next attempt, $retries attempts left"
+          sleep 30
+          fi
+          # Enable exit on error back
+          set -e
+          done
+
+          echo "Could not download $URL"
+          return 1
+          }
+          EDGE_INSTALLATION_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+          EDGE_VERSION=$("$EDGE_INSTALLATION_PATH" --version | cut -d' ' -f 3)
+          EDGE_VERSION_MAJOR=$(echo $EDGE_VERSION | cut -d'.' -f 1)
+          echo "Version of Microsoft Edge: ${EDGE_VERSION}"
+          pushd "/tmp" > /dev/null
+          download_with_retries https://msedgedriver.azureedge.net/102.0.1245.25/edgedriver_mac64.zip "." "edgedriver.zip"
+          APPLICATION="/usr/local/bin/msedgedriver"
+          EDGEDRIVER_DIR="/usr/local/share/edge_driver"
+          EDGEDRIVER_BIN="$EDGEDRIVER_DIR/msedgedriver"
+
+          mkdir -p $EDGEDRIVER_DIR
+
+          unzip "edgedriver.zip" -d $EDGEDRIVER_DIR
+          ln -s "$EDGEDRIVER_BIN" $APPLICATION
+          echo "export EDGEWEBDRIVER=${EDGEDRIVER_DIR}" >> "${HOME}/.bashrc"
+          popd > /dev/null
           
