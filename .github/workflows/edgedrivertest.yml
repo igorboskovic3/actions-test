@@ -1,0 +1,27 @@
+name: CI
+
+on: [push]
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install edgedriver
+        run: |  
+         EDGE_INSTALLATION_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+         EDGE_VERSION=$("$EDGE_INSTALLATION_PATH" --version | cut -d' ' -f 3)
+         EDGE_VERSION_MAJOR=$(echo $EDGE_VERSION | cut -d'.' -f 1)
+         echo "Version of Microsoft Edge: ${EDGE_VERSION}"
+         https://msedgedriver.azureedge.net/102.0.1245.25/edgedriver_mac64.zip "." "edgedriver.zip"
+         APPLICATION="/usr/local/bin/msedgedriver"
+         EDGEDRIVER_DIR="/usr/local/share/edge_driver"
+         EDGEDRIVER_BIN="$EDGEDRIVER_DIR/msedgedriver"
+
+         mkdir -p $EDGEDRIVER_DIR
+
+         unzip "edgedriver.zip" -d $EDGEDRIVER_DIR
+         ln -s "$EDGEDRIVER_BIN" $APPLICATION
+         echo "export EDGEWEBDRIVER=${EDGEDRIVER_DIR}" >> "${HOME}/.bashrc"
+         popd > /dev/null
+          
