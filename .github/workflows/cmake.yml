@@ -13,3 +13,4 @@ jobs:
       - name: Run a version test
         run: |
           $version = cmake --version
+          return "cmake $version"
