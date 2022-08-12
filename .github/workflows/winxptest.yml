@@ -27,6 +27,7 @@ jobs:
               Write-Host "components were not installed"
               exit 1
           }
+          dir C:\ProgramData\Microsoft\VisualStudio\Packages
           
     #runs-on:  windows-2022
 
