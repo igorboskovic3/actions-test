@@ -30,13 +30,13 @@ jobs:
           ANDROID_HOME=$HOME/Library/Android/sdk
           pushd $HOME
           pwd
-          ls -al
+          ls -alh
           echo "Downloading android command line tools..."
           sudo curl -L $ANDROID_OSX_SDK_URL -o $HOME/commandlinetools-mac-7302050_latest.zip
-          ls -al
+          ls -alh
           mkdir -p $HOME/Library/Android/sdk
           echo "Uncompressing android command line tools..."
           unzip -q $HOME/commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
           echo *********************************************************
-          ls -al
+          ls -alh
           
