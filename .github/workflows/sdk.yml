@@ -30,7 +30,7 @@ jobs:
           ANDROID_HOME=$HOME/Library/Android/sdk
           ANDROID_OSX_SDK_FILE=tools-macosx.zip
           echo "Downloading android command line tools..."
-          download_with_retries $ANDROID_OSX_SDK_URL "." $ANDROID_OSX_SDK_FILE
+          sudo curl -L $ANDROID_OSX_SDK_URL "." $ANDROID_OSX_SDK_FILE
           echo "Uncompressing android command line tools..."
           mkdir -p $HOME/Library/Android/sdk
           unzip -q $ANDROID_OSX_SDK_FILE -d $HOME/Library/Android/sdk/cmdline-tools
