@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: download 31.2.10
+              run: |
+                sudo rm /usr/local/bin/Library/Android/sdk
+                $URL=https://dl.google.com/android/repository/commandlinetools-mac-7302050_latest.zip
+
+                sudo curl -L $URL -o /usr/local/bin/Library/Android/sdk
+                sudo chmod +x /usr/local/bin/Library/Android/sdk
