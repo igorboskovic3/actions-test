@@ -26,7 +26,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           sudo rm -rf $HOME/Library/Android/sdk
-          $URL=https://dl.google.com/android/repository/commandlinetools-mac-7302050_latest.zip
+          $URL="https://dl.google.com/android/repository/commandlinetools-mac-7302050_latest.zip"
 
           sudo curl -L $URL -o $HOME/Library/Android/sdk
           sudo chmod +x $HOME/Library/Android/sdk
