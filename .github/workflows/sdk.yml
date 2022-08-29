@@ -35,7 +35,6 @@ jobs:
           sudo curl -L $ANDROID_OSX_SDK_URL -o $HOME/Library/Android/sdk
           ls -al
           echo "Uncompressing android command line tools..."
-          mkdir -p $HOME/Library/Android/sdk
           unzip -q commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
           echo *********************************************************
           ls -al
