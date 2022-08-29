@@ -28,15 +28,15 @@ jobs:
           sudo rm -rf $HOME/Library/Android/sdk
           ANDROID_OSX_SDK_URL="https://dl.google.com/android/repository/https://dl.google.com/android/repository/commandlinetools-mac-7302050_latest.zip"
           ANDROID_HOME=$HOME/Library/Android/sdk
-          ANDROID_OSX_SDK_FILE=commandlinetools-mac-7302050_latest.zip
           pushd $HOME
           pwd
           ls -al
           echo "Downloading android command line tools..."
-          sudo curl -L $ANDROID_OSX_SDK_URL -o $ANDROID_OSX_SDK_FILE
+          sudo curl -L $ANDROID_OSX_SDK_URL -o $HOME/Library/Android/sdk
           ls -al
           echo "Uncompressing android command line tools..."
           mkdir -p $HOME/Library/Android/sdk
-          unzip -q $ANDROID_OSX_SDK_FILE -d $HOME/Library/Android/sdk/cmdline-tools
+          unzip -q commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
           mv $HOME/Library/Android/sdk/cmdline-tools/cmdline-tools $HOME/Library/Android/sdk/cmdline-tools/latest
-          rm -f $ANDROID_OSX_SDK_FILE
+          sudo chmod +x $HOME/Library/Android/sdk/cmdline-tools/latest
+          rm -f commandlinetools-mac-7302050_latest.zip
