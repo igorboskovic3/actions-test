@@ -36,6 +36,8 @@ jobs:
           JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/platform-tools/adb start-server
       # Runs a set of commands using the runners shell
       - run: |
+          env:
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
           brew install ffmpeg
           node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 120 out.mov'); exec.exec('$ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &');"
       - name: upload video
