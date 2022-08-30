@@ -21,10 +21,23 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Install emulator and create avd
+        run: |
+          echo '----------Install Emulator--------------'
+          JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/tools/bin/sdkmanager --install emulator
+          $ANDROID_HOME/emulator/emulator -version
+          echo '----------Download Images--------------'
+          JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-31;default;x86_64"
+          echo '----------Create AVD--------------'
+          JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_5_API_31 -d pixel --package "system-images;android-31;default;x86_64"
+          echo '----------Show Available Emulators--------------'
+          $ANDROID_HOME/emulator/emulator -list-avds
+          echo '----------Start adb server--------------'
+          JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/platform-tools/adb start-server
       # Runs a set of commands using the runners shell
       - name: run ui test and video recording
           brew install ffmpeg
-          node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 420 out.mov'); exec.exec('command to run tests');"
+          node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 120 out.mov'); exec.exec('$ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &');"
       - name: upload video
         uses: actions/upload-artifact@master
         with:
