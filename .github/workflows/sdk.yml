@@ -23,21 +23,12 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          sudo rm -rf $HOME/Library/Android/sdk
-          ANDROID_OSX_SDK_URL="https://dl.google.com/android/repository/https://dl.google.com/android/repository/commandlinetools-mac-7302050_latest.zip"
-          ANDROID_HOME=$HOME/Library/Android/sdk
-          pushd $HOME
-          pwd
-          ls -alh
-          echo "Downloading android command line tools..."
-          sudo curl -L $ANDROID_OSX_SDK_URL -o $HOME/commandlinetools-mac-7302050_latest.zip
-          ls -alh
-          cat $HOME/commandlinetools-mac-7302050_latest.zip
-          mkdir -p $HOME/Library/Android/sdk
-          echo "Uncompressing android command line tools..."
-          unzip -q $HOME/commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
-          echo *********************************************************
-          ls -alh
+      - name: run ui test and video recording
+          brew install ffmpeg
+          node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 420 out.mov'); exec.exec('command to run tests');"
+      - name: upload video
+        uses: actions/upload-artifact@master
+        with:
+          name: out
+          path: out.mov
           
