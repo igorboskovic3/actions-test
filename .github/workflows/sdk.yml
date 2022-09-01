@@ -35,7 +35,6 @@ jobs:
           echo "Uncompressing android command line tools..."
           unzip -q $HOME/commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
           mv $HOME/Library/Android/sdk/cmdline-tools/cmdline-tools $HOME/Library/Android/sdk/cmdline-tools/latest
-          ANDROID_HOME/tools/bin/sdkmanager --install emulator
           ANDROID_HOME/emulator/emulator -version
           ls -alh
           rm -f $HOME/commandlinetools-mac-7302050_latest.zip
