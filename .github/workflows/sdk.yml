@@ -35,5 +35,5 @@ jobs:
           echo "Uncompressing android command line tools..."
           unzip -q $HOME/commandlinetools-mac-7302050_latest.zip -d $HOME/Library/Android/sdk/cmdline-tools
           mv $HOME/Library/Android/sdk/cmdline-tools/cmdline-tools $HOME/Library/Android/sdk/cmdline-tools/latest
-          cat $HOME/Library/Android/sdk/cmdline-tools/latest
+          ls -alh
           rm -f $HOME/commandlinetools-mac-7302050_latest.zip
