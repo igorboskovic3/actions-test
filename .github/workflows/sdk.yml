@@ -29,9 +29,9 @@ jobs:
           $ANDROID_HOME/tools/bin/sdkmanager --install emulator
           $ANDROID_HOME/emulator/emulator -version
           echo '----------Download Images--------------'
-          $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-31;default;x86_64"
+          $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-30;default;x86_64"
           echo '----------Create AVD--------------'
-          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_5_API_31 -d pixel --package "system-images;android-31;default;x86_64"
+          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_5_API_31 -d pixel --package "system-images;android-30;default;x86_64"
           echo '----------Show Available Emulators--------------'
           $ANDROID_HOME/emulator/emulator -list-avds
           echo '----------Start adb server--------------'
