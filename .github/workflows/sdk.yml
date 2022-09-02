@@ -31,7 +31,7 @@ jobs:
           ANDROID_OSX_EMU_URL="https://redirector.gvt1.com/edgedl/android/repository/emulator-darwin_aarch64-8420304.zip"
           pushd $HOME
           echo "Downloading android command line tools..."
-          sudo curl -L $ANDROID_EMU_SDK_URL -o ANDROID_HOME/emulator
+          sudo curl -L ANDROID_OSX_EMU_URL -o ANDROID_HOME/emulator
           mkdir -p $HOME/Library/Android/sdk/emulator
           echo "Uncompressing android command line tools..."
           unzip -q $HOME/emulator-darwin_aarch64-8420304.zip -d $HOME/Library/Android/sdk/emulator
