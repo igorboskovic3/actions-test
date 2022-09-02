@@ -26,7 +26,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           ANDROID_HOME=$HOME/Library/Android/sdk
-          ANDROID_HOME/emulator/emulator -version
           mv ANDROID_HOME/emulator ANDROID_HOME/emulator_original
           pushd ANDROID_HOME/emulator
           ls
