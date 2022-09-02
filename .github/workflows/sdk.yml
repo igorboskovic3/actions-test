@@ -25,9 +25,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          $ANDROID_HOME=$HOME/Library/Android/sdk
-          ls
-          echo ***************************************
           $ANDROID_OSX_EMU_URL="https://redirector.gvt1.com/edgedl/android/repository/emulator-darwin_aarch64-8420304.zip"
           pushd $HOME
           echo "Downloading android command line tools..."
