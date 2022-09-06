@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          apt update
+          sudo apt update
         
