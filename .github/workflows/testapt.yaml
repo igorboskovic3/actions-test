@@ -9,6 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          cd \etc\apt\sources.list
           apt update
         
