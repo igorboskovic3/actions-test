@@ -6,9 +6,9 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-2022
+    runs-on: ubuntu-latest
     steps:
       - run: |
-        cd \etc\apt\sources.list
-        apt update
+          cd \etc\apt\sources.list
+          apt update
         
