@@ -7,36 +7,66 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
 
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: macOS-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a set of commands using the runners shell
-      - name: Install emulator and create avd
+  run-emulator:
+    runs-on: macos-12
+  
+    steps: 
+      - name: Create Android emulator
         run: |
-          echo '----------Install Emulator--------------'
-          $ANDROID_HOME/tools/bin/sdkmanager --install emulator
-          $ANDROID_HOME/emulator/emulator -version
-          echo '----------Download Images--------------'
-          $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-30;default;x86_64"
-          echo '----------Create AVD--------------'
-          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_5_API_31 -d pixel --package "system-images;android-30;default;x86_64"
-          echo '----------Show Available Emulators--------------'
+          # Install AVD files
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-29;default;x86_64'
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+          
+          # Create emulator
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-29;default;x86_64' --force
           $ANDROID_HOME/emulator/emulator -list-avds
-          echo '----------Start adb server--------------'
-          $ANDROID_HOME/platform-tools/adb start-server
-          # echo '----------Start Emulator--------------'
-          # $ANDROID_HOME/tools/emulator -port 18725 -verbose -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &
-          # echo '----------Show Devices--------------'
-          # JAVA_HOME=$(/usr/libexec/java_home -v 1.8) $ANDROID_HOME/platform-tools/adb devices
+          if false; then
+          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
+          # The following madness is to support empty OR populated config.ini files,
+          # the state of which is dependant on the version of the emulator used (which we don't control),
+          # so let's be defensive to be safe.
+          # Replace existing config (NOTE we're on MacOS so sed works differently!)
+          sed -i .bak 's/hw.lcd.density=.*/hw.lcd.density=420/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.height=.*/hw.lcd.height=1920/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.width=.*/hw.lcd.width=1080/' "$emulator_config"
+          # Or, add new config
+          if ! grep -q "hw.lcd.density" "$emulator_config"; then
+            echo "hw.lcd.density=420" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.height" "$emulator_config"; then
+            echo "hw.lcd.height=1920" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.width" "$emulator_config"; then
+            echo "hw.lcd.width=1080" >> "$emulator_config"
+          fi
+          echo "Emulator settings ($emulator_config)"
+          cat "$emulator_config"
+          fi
+          
+      - name: Start Android emulator
+        run: |
+          echo "Starting emulator and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          #nohup $ANDROID_HOME/emulator/emulator -avd Pixel_API_29_AOSP -no-snapshot -no-window -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          nohup $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu guest -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
+          echo "Emulator has finished booting"
+          $ANDROID_HOME/platform-tools/adb devices
+          screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+          #osascript click.as
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: screenshot.jpg
+          path: screenshot.jpg
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: emulator.png
+          path: emulator.png
