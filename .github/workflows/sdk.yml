@@ -13,7 +13,7 @@ on:
 
 jobs:
   run-emulator:
-    runs-on: macos-latest
+    runs-on: macos-12
   
     steps: 
       - name: Create Android emulator
