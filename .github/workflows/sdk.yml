@@ -64,7 +64,6 @@ jobs:
           #osascript click.as
       - name: approve security button
         run: |
-         osascript click.as
          osascript -e "tell application "System Events" to keystroke return"
          osascript -e "activate"
          osascript -e     "tell application \"System Events\""
