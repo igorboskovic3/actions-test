@@ -26,34 +26,11 @@ jobs:
           # Create emulator
           $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
           $ANDROID_HOME/emulator/emulator -list-avds
-          if false; then
-          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
-          # The following madness is to support empty OR populated config.ini files,
-          # the state of which is dependant on the version of the emulator used (which we don't control),
-          # so let's be defensive to be safe.
-          # Replace existing config (NOTE we're on MacOS so sed works differently!)
-          sed -i .bak 's/hw.lcd.density=.*/hw.lcd.density=420/' "$emulator_config"
-          sed -i .bak 's/hw.lcd.height=.*/hw.lcd.height=1920/' "$emulator_config"
-          sed -i .bak 's/hw.lcd.width=.*/hw.lcd.width=1080/' "$emulator_config"
-          # Or, add new config
-          if ! grep -q "hw.lcd.density" "$emulator_config"; then
-            echo "hw.lcd.density=420" >> "$emulator_config"
-          fi
-          if ! grep -q "hw.lcd.height" "$emulator_config"; then
-            echo "hw.lcd.height=1920" >> "$emulator_config"
-          fi
-          if ! grep -q "hw.lcd.width" "$emulator_config"; then
-            echo "hw.lcd.width=1080" >> "$emulator_config"
-          fi
-          echo "Emulator settings ($emulator_config)"
-          cat "$emulator_config"
-          fi
-          
       - name: Start Android emulator
         run: |
           echo "Starting emulator and waiting for boot to complete...."
           ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP
+          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host
           $ANDROID_HOME/platform-tools/adb devices
           sleep 30
           screencapture screenshot.jpg
