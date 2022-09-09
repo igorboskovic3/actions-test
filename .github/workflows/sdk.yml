@@ -64,7 +64,7 @@ jobs:
           #osascript click.as
       - name: approve security button
         run: |
-         tell application "System Events" to keystroke return
+         osascript -e "tell application "System Events" to keystroke return"
       - name: install recorder and record session
         run: |
           brew install ffmpeg
