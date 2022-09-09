@@ -13,12 +13,12 @@ on:
 
 jobs:
   run-emulator:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
   
     steps: 
       - name: Create Android emulator
         run: |
-          brew install intel-haxm
+          # brew install intel-haxm
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
