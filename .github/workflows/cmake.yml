@@ -1,7 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 name: Cmake-windows-test
 # Controls when the workflow will run
-on: [push]
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
 jobs:
  windows:
     runs-on: windows-latest
