@@ -62,6 +62,9 @@ jobs:
           screencapture screenshot.jpg
           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
           #osascript click.as
+      - name: approve security button
+        run: |
+         tell application "System Events" to keystroke return
       - name: install recorder and record session
         run: |
           brew install ffmpeg
