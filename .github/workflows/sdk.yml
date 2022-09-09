@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: sdk
+name: android-emulator-test-macos
 
 # Controls when the workflow will run
 on:
@@ -62,6 +62,19 @@ jobs:
           screencapture screenshot.jpg
           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
           #osascript click.as
+      - name: install recorder and record session
+        run: |
+          brew install ffmpeg
+          $ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &
+          ffmpeg -f avfoundation -i 0 -t 120 out.mov
+      # node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 120 out.mov'); exec.exec('$ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &');"
+        env:
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
+      - name: upload video
+        uses: actions/upload-artifact@master
+        with:
+          name: out
+          path: out.mov
           
       - uses: actions/upload-artifact@v3
         with:
