@@ -53,7 +53,7 @@ jobs:
         run: |
           echo "Starting emulator and waiting for boot to complete...."
           ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/emulator/emulator -avd Pixel_API_29_AOSP
+          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP
           $ANDROID_HOME/platform-tools/adb devices
           sleep 30
           screencapture screenshot.jpg
