@@ -1,4 +1,4 @@
-name: CI
+name: edge-driver-test-macos
 
 on: [push]
 
