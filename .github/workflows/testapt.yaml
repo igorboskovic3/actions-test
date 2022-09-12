@@ -12,25 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          sudo apt update
-          sudo cat /etc/apt/sources.list
+          apt update
+          cat /etc/apt/sources.list
           echo *****************************************
-          sudo ls -l /etc/apt/sources.list.d
+          ls -l /etc/apt/sources.list.d
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/git-core-ubuntu-ppa-focal.list
+          cat /etc/apt/sources.list.d/git-core-ubuntu-ppa-focal.list
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/git-core-ubuntu-ppa-focal.list.save
+          cat /etc/apt/sources.list.d/git-core-ubuntu-ppa-focal.list.save
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/github_git-lfs.list.save
+          cat /etc/apt/sources.list.d/github_git-lfs.list.save
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/microsoft-prod.list
+          cat /etc/apt/sources.list.d/microsoft-prod.list
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/microsoft-prod.list.save
+          cat /etc/apt/sources.list.d/microsoft-prod.list.save
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list
+          cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list
           echo *****************************************
-          sudo cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list.save
+          cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list.save
           cd imagegeneration/helpers/
-          sudo cat /imagegeneration/helpers/apt-sources.txt
+          sudo cat imagegeneration/helpers/apt-sources.txt
           pwd
         
