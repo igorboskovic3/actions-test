@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          apt -y update
+          sudo apt -y update
           cat /etc/apt/sources.list
           echo *****************************************
           ls -l /etc/apt/sources.list.d
