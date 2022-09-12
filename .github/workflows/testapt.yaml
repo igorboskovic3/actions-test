@@ -34,4 +34,5 @@ jobs:
           #cd imagegeneration/helpers/
           #sudo cat imagegeneration/helpers/apt-sources.txt
           pwd
+          ls -l /home/runner/work/actions-test/actions-test
         
