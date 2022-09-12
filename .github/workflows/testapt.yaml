@@ -30,7 +30,7 @@ jobs:
           cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list
           echo *****************************************
           cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list.save
-          find / -type f -name 'helpers'
+          sudo find / -type f -name 'helpers'
           #cd imagegeneration/helpers/
           #sudo cat imagegeneration/helpers/apt-sources.txt
           pwd
