@@ -30,6 +30,5 @@ jobs:
           sudo cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list
           echo *****************************************
           sudo cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list.save
-          cd ~/imagegeneration/helpers/
           pwd
         
