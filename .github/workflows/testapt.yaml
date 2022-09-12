@@ -9,7 +9,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-22
+    runs-on: ubuntu-22.04
     steps:
       - run: |
           sudo apt -y update
@@ -30,7 +30,7 @@ jobs:
           cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list
           echo *****************************************
           cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list.save
-          sudo find / -type f -name 'helpers'
+          sudo find / -type f -name 'apt-sources.txt'
           #cd imagegeneration/helpers/
           #sudo cat imagegeneration/helpers/apt-sources.txt
           pwd
