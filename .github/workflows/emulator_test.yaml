@@ -22,11 +22,11 @@ jobs:
 
           # install the x86_64 SDK package
           echo "Download android image"
-          echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86_64"
+          echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-31;google_apis;x86_64"
 
           # create the Android Virtual Device using the given SDK package
           echo "Create AVD"
-          echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86_64"
+          echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-31;google_apis;x86_64"
 
           echo "AVD created:"
           "$ANDROID_HOME/emulator/emulator" -list-avds
