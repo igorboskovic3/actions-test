@@ -23,6 +23,7 @@ jobs:
           # install the x86 SDK package
           echo "Download android image"
           echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
           # create the Android Virtual Device using the given SDK package
           echo "Create AVD"
