@@ -1,0 +1,56 @@
+name: BigSur Android
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Create directory for jni libs
+      run: mkdir app/libs && mkdir app/libs/arm64-v8a      
+
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Setup gradle
+      uses: gradle/gradle-build-action@v2    
+        
+    - name: Create Android emulator
+      run: |
+        sdkmanager --install "system-images;android-31;google_apis;x86_64"
+        echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+        
+    - name: Copy jar files to app folder
+      run: gradle extractLibs
+
+    - name: Launch Emulator
+      run: | 
+        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
+        
+    - name: Run instrumentation tests
+      run: |                
+        gradle connectedAndroidTest --stacktrace
+        
+    - name: Build apk file
+      run: gradle assembleRelease
+
+    - name: Upload (unsigned) APK
+      uses: actions/upload-artifact@v2.2.4
+      with:
+          name: kotlin_demo_apk
+          path: ${{github.workspace}}/app/build/outputs/apk/release/app-release-unsigned.apk
