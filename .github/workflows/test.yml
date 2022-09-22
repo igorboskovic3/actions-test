@@ -21,6 +21,7 @@ jobs:
       - name : Install accel
         run: |
           sudo apt -y install bridge-utils cpu-checker libvirt-clients libvirt-daemon qemu qemu-kvm
+          virsh list --all
           
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
