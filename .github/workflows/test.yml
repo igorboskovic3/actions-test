@@ -20,17 +20,12 @@ jobs:
           
       - name : Install accel
         run: |
+          set -x #echo on
           sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
           echo "Checking is Qemu installed"
           virsh list --all
-          echo "Checking hardware prerequisites"
+          echo "Checking does CPU support virualization 0-NO 1-YES"
           egrep -c '(vmx|svm)' /proc/cpuinfo
-          echo "******************************************************"
-          cat /sys/hypervisor/properties/capabilities
-          echo "******************************************************"
-          kvm-ok
-          echo "******************************************************"
-          
           
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
