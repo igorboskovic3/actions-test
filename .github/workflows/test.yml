@@ -50,9 +50,9 @@ jobs:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-      - name : Check for acceleration
-        run: |
-          $ANDROID_HOME/tools/emulator -avd testAVD -accel-check
+      #- name : Check for acceleration
+      #  run: |
+      #    $ANDROID_HOME/tools/emulator -avd testAVD -accel-check
       
       - name : Install accel
         run: |
