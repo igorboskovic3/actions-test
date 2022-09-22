@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Create directory for jni libs
-      run: mkdir app/libs && mkdir app/libs/arm64-v8a      
+      run: find /usr -name 'libpulse*'  
 
     - name: set up JDK 17
       uses: actions/setup-java@v3
