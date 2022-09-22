@@ -9,8 +9,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  jobs:
-    runs-on: ubuntu-latest
+jobs:
+  run-emulator:
+    runs-on: macos-12
   
     steps: 
        - name: Create Android emulator
@@ -19,11 +20,12 @@ on:
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-        
-          avdmanager create avd --name testAVD -d pixel --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+          
+          # Create emulator
+          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
           $ANDROID_HOME/emulator/emulator -list-avds
           if false; then
-          emulator_config=~/.android/avd/testAVD.avd/config.ini
+          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
           # The following madness is to support empty OR populated config.ini files,
           # the state of which is dependant on the version of the emulator used (which we don't control),
           # so let's be defensive to be safe.
@@ -44,31 +46,13 @@ on:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-       - name: Build apk file
-         run: find /usr -name 'libpulse*'  
-
-       - name: Copy jar files to app folder
-         run: gradle extractLibs
-
-      - name: Launch Emulator
-        run: |       
+          
+       - name: Start Android emulator
+         run: |
           echo "Starting emulator and waiting for boot to complete...."
           ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/tools/emulator -avd testAVD -noaudio -no-window -no-boot-anim -camera-back none -camera-front none -memory 2048 2>&1 &
-          $ANDROID_HOME/platform-tools/adb wait-for-device 
+          nohup $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
           sleep 30
-
-      - name: Run instrumentation tests
-        run: |                
-          gradle connectedAndroidTest --stacktrace
-
-      - name: Build apk file
-        run: gradle assembleRelease
-
-      - name: Upload (unsigned) APK
-        uses: actions/upload-artifact@v2.2.4
-        with:
-            name: kotlin_demo_apk
-            path: ${{github.workspace}}/app/build/outputs/apk/release/app-release-unsigned.apk
