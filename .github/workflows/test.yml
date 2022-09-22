@@ -20,9 +20,6 @@ jobs:
           
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      
-      - name: Setup gradle
-        uses: gradle/gradle-build-action@v2
         
       - name: Create Android emulator
         run: |        
@@ -53,9 +50,6 @@ jobs:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-
-      - name: Copy jar files to app folder
-        run: gradle extractLibs
 
       - name: Launch Emulator
         run: |       
