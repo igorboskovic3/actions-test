@@ -14,22 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Create directory for jni libs
-      run: find /usr -name 'libpulse*'  
-
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-    
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
-      
-    - name: Setup gradle
-      uses: gradle/gradle-build-action@v2    
         
     - name: Create Android emulator
       run: |        
@@ -60,6 +44,8 @@ jobs:
         echo "Emulator settings ($emulator_config)"
         cat "$emulator_config"
         fi
+    - name: Build apk file
+      run: find /usr -name 'libpulse*'  
         
     - name: Copy jar files to app folder
       run: gradle extractLibs
