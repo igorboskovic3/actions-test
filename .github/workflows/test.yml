@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-emulator:
     runs-on: ubuntu-latest
   
     steps: 
