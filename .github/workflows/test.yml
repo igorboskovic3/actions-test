@@ -17,4 +17,45 @@ jobs:
       - name: Run a multiple lines
         run: |
           sudo apt-get install libpulse0
-          find /usr -name 'libpulse*'
+      - name: Create Android emulator
+        run: |        
+          echo "y" | sdkmanager --install "system-images;android-31;google_apis;x86_64"
+          echo "y" | sdkmanager --licenses
+        
+          avdmanager create avd --name testAVD -d pixel --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+          $ANDROID_HOME/emulator/emulator -list-avds
+          if false; then
+          emulator_config=~/.android/avd/testAVD.avd/config.ini
+          # The following madness is to support empty OR populated config.ini files,
+          # the state of which is dependant on the version of the emulator used (which we don't control),
+          # so let's be defensive to be safe.
+          # Replace existing config (NOTE we're on MacOS so sed works differently!)
+          sed -i .bak 's/hw.lcd.density=.*/hw.lcd.density=420/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.height=.*/hw.lcd.height=1920/' "$emulator_config"
+          sed -i .bak 's/hw.lcd.width=.*/hw.lcd.width=1080/' "$emulator_config"
+          # Or, add new config
+          if ! grep -q "hw.lcd.density" "$emulator_config"; then
+            echo "hw.lcd.density=420" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.height" "$emulator_config"; then
+            echo "hw.lcd.height=1920" >> "$emulator_config"
+          fi
+          if ! grep -q "hw.lcd.width" "$emulator_config"; then
+            echo "hw.lcd.width=1080" >> "$emulator_config"
+          fi
+          echo "Emulator settings ($emulator_config)"
+          cat "$emulator_config"
+          fi
+
+      - name: Copy jar files to app folder
+        run: gradle extractLibs
+
+      - name: Launch Emulator
+        run: |       
+          echo "Starting emulator  and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          $ANDROID_HOME/tools/emulator -avd testAVD -noaudio -no-window -no-boot-anim -camera-back none -camera-front none -memory 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device 
+          echo "Emulator has finished booting"
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 30
