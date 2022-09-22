@@ -24,8 +24,6 @@ jobs:
           sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
           echo "Checking is Qemu installed"
           virsh list --all
-          echo "Checking does CPU support virualization 0-NO 1-YES"
-          egrep -c '(vmx|svm)' /proc/cpuinfo
           
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
