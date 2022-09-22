@@ -11,7 +11,7 @@ on:
 
 jobs:
   run-emulator:
-    runs-on: macos-12
+    runs-on: ubuntu-latest
   
     steps: 
        - name: Create Android emulator
@@ -56,3 +56,15 @@ jobs:
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
           sleep 30
+           screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+       - name: upload screnshot
+       - uses: actions/upload-artifact@v3
+         with:
+          name: screenshot.jpg
+          path: screenshot.jpg
+          
+       - uses: actions/upload-artifact@v3
+         with:
+          name: emulator.png
+          path: emulator.png
