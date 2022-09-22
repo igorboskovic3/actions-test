@@ -17,16 +17,6 @@ jobs:
       - name: Install libpulse0
         run: |
           sudo apt-get install libpulse0
-          
-      - name : Install accel
-        run: |
-          set -x #echo on
-          sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
-          echo "Checking is Qemu installed"
-          virsh list --all
-          echo "Checking if CPU support virtualization"
-          echo "0-no, 1-yes"
-          egrep -c '(vmx|svm)' /proc/cpuinfo
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
