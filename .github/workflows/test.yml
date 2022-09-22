@@ -58,6 +58,8 @@ jobs:
           sleep 30
            screencapture screenshot.jpg
           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+         env:
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
        - name: upload screnshot
        - uses: actions/upload-artifact@v3
          with:
