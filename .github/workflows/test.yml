@@ -50,7 +50,14 @@ jobs:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-
+      - name : Check for acceleration
+        run: |
+          $ANDROID_HOME/tools/emulator -avd testAVD -accel-check
+      
+      - name : Install accel
+        run: |
+          sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+          
       - name: Launch Emulator
         run: |       
           echo "Starting emulator  and waiting for boot to complete...."
