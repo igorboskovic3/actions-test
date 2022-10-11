@@ -38,13 +38,13 @@ jobs:
           echo "AVD created:"
           "$ANDROID_HOME/emulator/emulator" -list-avds
 
-          echo "Starting the Android emulator..."
-          export ANDROID_EMULATOR_DEBUG=1
-          nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu host -no-snapshot-load 2>&1 &
-          $ANDROID_HOME/platform-tools/adb wait-for-device
+          echo "Starting emulator and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          $ANDROID_HOME/tools/emulator -avd TestAvd123 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
-          sleep 45
+          sleep 30
           screencapture screenshot.jpg
           $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
 
