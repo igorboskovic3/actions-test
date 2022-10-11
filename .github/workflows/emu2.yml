@@ -60,8 +60,9 @@ jobs:
           fi
           
         echo "Starting the Android emulator..."
+        ls -la $ANDROID_HOME/emulator
         export ANDROID_EMULATOR_DEBUG=1
-        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -gpu host -no-snapshot-load 2>&1 &
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -gpu host -no-snapshot-load -qemu -m 2048 2>&1 &
         $ANDROID_HOME/platform-tools/adb wait-for-device
         echo "Emulator has finished booting"
         $ANDROID_HOME/platform-tools/adb devices
