@@ -14,50 +14,62 @@ jobs:
     runs-on: macos-12
   
     steps: 
-       - name: Create Android emulator
-         run: |
-          brew install intel-haxm
-          # Install AVD files
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+    
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Setup gradle
+      uses: gradle/gradle-build-action@v2    
+        
+    - name: Create Android emulator
+      run: |
+        # install the hardware acceleration
+        echo " Installing Hardware Acceleration Manager..."
+        sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;intel;Hardware_Accelerated_Execution_Manager"
+        # brew install intel-haxm
+        sysctl kern.hv_support
+        sdkmanager --install "system-images;android-27;google_apis;x86_64"
+        echo "no" | avdmanager --verbose create avd --force --name TestAvd123 --abi google_apis/x86_64 --package 'system-images;android-27;google_apis;x86_64'
+        echo "AVD created:"
+        "$ANDROID_HOME/emulator/emulator" -list-avds
           
-          # Create emulator
-          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
-          $ANDROID_HOME/emulator/emulator -list-avds
-          if false; then
-          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
+        echo "Starting the Android emulator..."
+        export ANDROID_EMULATOR_DEBUG=1
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu swiftshader_indirect -no-snapshot-load 2>&1 &
+        $ANDROID_HOME/platform-tools/adb wait-for-device
+        echo "Emulator has finished booting"
+        $ANDROID_HOME/platform-tools/adb devices
+        sleep 45
+        screencapture screenshot.jpg
+        $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
           
-       - name: Start Android emulator
-         run: |
-          echo "Starting emulator and waiting for boot to complete...."
-          ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
-          echo "Emulator has finished booting"
-          $ANDROID_HOME/platform-tools/adb devices
-          sleep 30
-          screencapture screenshot.jpg
-          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
-       - name: install recorder and record session
-         run: |
+    - name: install recorder and record session
+      run: |
           brew install ffmpeg
-          $ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_API_29_AOSP &
-          ffmpeg -f avfoundation -i 0 -t 120 out.mov
-      # node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 120 out.mov'); exec.exec('$ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @Pixel_5_API_31 &');"
-         env:
-          HOMEBREW_NO_INSTALL_CLEANUP: 1
-       - name: upload video
-         uses: actions/upload-artifact@master
-         with:
-          name: out
-          path: out.mov
+          $ANDROID_HOME/tools/emulator -port 18725 -verbose -accel on -no-audio -gpu swiftshader_indirect @TestAvd123 &
+          ffmpeg -f avfoundation -i 0 -t 45 out.mov
+          # node -e "const exec = require('child_process'); exec.exec('ffmpeg -f avfoundation -i 0 -t 120 out.mov'); exec.exec('$ANDROID_HOME/tools/emulator -port 18725 -verbose -no-window -no-audio -gpu swiftshader_indirect @TestAvd123 &');"
+      env:
+           HOMEBREW_NO_INSTALL_CLEANUP: 1
           
-       - uses: actions/upload-artifact@v3
-         with:
-          name: screenshot.jpg
-          path: screenshot.jpg
-          
-       - uses: actions/upload-artifact@v3
-         with:
-          name: emulator.png
-          path: emulator.png
+    - name: upload video
+      uses: actions/upload-artifact@master
+      with:
+            name: out
+            path: out.mov
+             
+    - uses: actions/upload-artifact@v3
+      with:
+           name: screenshot.jpg
+           path: screenshot.jpg
+             
+    - uses: actions/upload-artifact@v3
+      with:
+           name: emulator.png
+           path: emulator.png
