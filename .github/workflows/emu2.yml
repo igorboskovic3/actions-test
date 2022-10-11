@@ -63,7 +63,7 @@ jobs:
         ls -la $ANDROID_HOME/emulator
         export ANDROID_EMULATOR_DEBUG=1
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -gpu host -no-snapshot-load -qemu -m 2048 2>&1 &
-        $ANDROID_HOME/platform-tools/adb wait-for-device
+        $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
         echo "Emulator has finished booting"
         $ANDROID_HOME/platform-tools/adb devices
         sleep 45
