@@ -29,18 +29,16 @@ jobs:
         
     - name: Create Android emulator
       run: |
-        # install the hardware acceleration
-        echo " Installing Hardware Acceleration Manager..."
-        sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;intel;Hardware_Accelerated_Execution_Manager"
-        # brew install intel-haxm
-        sysctl kern.hv_support
-        sdkmanager --install "system-images;android-31;google_apis;x86_64"
-        echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-        echo "no" | avdmanager --verbose create avd --force --name TestAvd123 --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
-        echo "AVD created:"
-        "$ANDROID_HOME/emulator/emulator" -list-avds
-        if false; then
-          emulator_config=~/.android/avd/TestAvd123.avd/config.ini
+          brew install intel-haxm
+          # Install AVD files
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;default;x86_64'
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+          
+          # Create emulator
+          $ANDROID_HOME/tools/bin/avdmanager create avd -n Pixel_API_29_AOSP -d pixel --package 'system-images;android-27;default;x86_64'
+          $ANDROID_HOME/emulator/emulator -list-avds
+          if false; then
+          emulator_config=~/.android/avd/Pixel_API_29_AOSP.avd/config.ini
           # The following madness is to support empty OR populated config.ini files,
           # the state of which is dependant on the version of the emulator used (which we don't control),
           # so let's be defensive to be safe.
@@ -62,18 +60,17 @@ jobs:
           cat "$emulator_config"
           fi
           
-        echo "Starting the Android emulator..."
-        ls -la $ANDROID_HOME/emulator
-        export ANDROID_EMULATOR_DEBUG=1
-        ###nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu swiftshader_indirect -no-snapshot-load 2>&1 &
-        ###$ANDROID_HOME/platform-tools/adb wait-for-device
-        $ANDROID_HOME/tools/emulator -avd TestAvd123 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
-        ###$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
-        echo "Emulator has finished booting"
-        $ANDROID_HOME/platform-tools/adb devices
-        sleep 45
-        screencapture screenshot.jpg
-        $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
+          - name: Start Android emulator
+            run: |
+          echo "Starting emulator and waiting for boot to complete...."
+          ls -la $ANDROID_HOME/emulator
+          nohup $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
+          echo "Emulator has finished booting"
+          $ANDROID_HOME/platform-tools/adb devices
+          sleep 30
+          screencapture screenshot.jpg
+          $ANDROID_HOME/platform-tools/adb exec-out screencap -p > emulator.png
           
     - name: install recorder and record session
       run: |
