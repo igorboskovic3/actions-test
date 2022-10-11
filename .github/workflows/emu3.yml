@@ -68,7 +68,7 @@ jobs:
         ###nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu swiftshader_indirect -no-snapshot-load 2>&1 &
         ###$ANDROID_HOME/platform-tools/adb wait-for-device
         $ANDROID_HOME/tools/emulator -avd TestAvd123 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
-        $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
+        ###$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
         echo "Emulator has finished booting"
         $ANDROID_HOME/platform-tools/adb devices
         sleep 45
