@@ -31,8 +31,7 @@ jobs:
       run: |
         # install the hardware acceleration
         echo " Installing Hardware Acceleration Manager..."
-        sudo $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;intel;Hardware_Accelerated_Execution_Manager"
-        # brew install intel-haxm
+        brew install intel-haxm
         sysctl kern.hv_support
         sdkmanager --install "system-images;android-31;google_apis;x86_64"
         echo "no" | avdmanager --verbose create avd --force --name TestAvd123 --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
