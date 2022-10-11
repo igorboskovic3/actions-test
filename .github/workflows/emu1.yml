@@ -40,7 +40,7 @@ jobs:
 
           echo "Starting the Android emulator..."
           export ANDROID_EMULATOR_DEBUG=1
-          nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu swiftshader_indirect -no-snapshot-load 2>&1 &
+          nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd123 -accel on -gpu host -no-snapshot-load 2>&1 &
           $ANDROID_HOME/platform-tools/adb wait-for-device
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
