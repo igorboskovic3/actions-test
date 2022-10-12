@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: EMU1
+name: android-emulator-test-macos
 
 # Controls when the workflow will run
 on:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   run-emulator:
-    runs-on: macos-latest
+    runs-on: macos-12
   
     steps: 
        - name: Create Android emulator
