@@ -47,7 +47,7 @@ jobs:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-          $ANDROID_HOME/platform-tools/adb shell 'su;setprop debug.hwui.renderer skiagl;stop;start'
+          #$ANDROID_HOME/platform-tools/adb shell 'su;setprop debug.hwui.renderer skiagl;stop;start'
        - name: Start Android emulator
          run: |
           echo "Starting emulator and waiting for boot to complete...."
