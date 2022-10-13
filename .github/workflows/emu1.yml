@@ -16,7 +16,7 @@ jobs:
     steps: 
        - name: Create Android emulator
          run: |
-          brew install --cask intel-haxm -m 2048
+          brew install --cask intel-haxm -m 1024
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-31;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
@@ -52,7 +52,7 @@ jobs:
          run: |
           echo "Starting emulator and waiting for boot to complete...."
           ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -partition-size 2048 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -partition-size 768 -gpu auto -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
