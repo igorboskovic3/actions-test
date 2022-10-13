@@ -16,7 +16,8 @@ jobs:
     steps: 
        - name: Create Android emulator
          run: |
-          brew search intel-haxm@
+          brew search haxm@
+          brew install haxm@
           # Install AVD files
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-28;default;x86_64'
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses
