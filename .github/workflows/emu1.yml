@@ -47,12 +47,12 @@ jobs:
           echo "Emulator settings ($emulator_config)"
           cat "$emulator_config"
           fi
-          #$ANDROID_HOME/platform-tools/adb shell 'su;setprop debug.hwui.renderer skiagl;stop;start'
+          $ANDROID_HOME/platform-tools/adb shell 'su;setprop debug.hwui.renderer skiagl;stop;start'
        - name: Start Android emulator
          run: |
           echo "Starting emulator and waiting for boot to complete...."
           ls -la $ANDROID_HOME/emulator
-          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -partition-size 768 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
+          $ANDROID_HOME/tools/emulator -avd Pixel_API_29_AOSP -memory 768 -gpu host -no-audio -no-boot-anim -camera-back none -camera-front none -qemu -m 2048 2>&1 &
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do echo "wait..."; sleep 1; done; input keyevent 82'
           echo "Emulator has finished booting"
           $ANDROID_HOME/platform-tools/adb devices
