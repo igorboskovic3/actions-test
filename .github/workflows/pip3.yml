@@ -16,4 +16,4 @@ jobs:
          run: |
           pip3 install codemagic-cli-tools
           pip3 install appstoreconnect
-          which app-store-connect
+          which appstoreconnect
