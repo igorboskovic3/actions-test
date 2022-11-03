@@ -16,4 +16,4 @@ jobs:
          run: |
           pip3 install codemagic-cli-tools
           echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
-          which appstoreconnect
+          which app-store-connect
