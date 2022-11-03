@@ -12,9 +12,9 @@ jobs:
     runs-on: macos-12
   
     steps: 
-       - name: install ppstoreconnect
+       - name: install appstoreconnect
          run: |
-          pip install appstoreconnect
+          pip3 install appstoreconnect
           # Install codemagic-cli-tools
           pip3 install codemagic-cli-tools
           which app-store-connect
