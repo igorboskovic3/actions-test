@@ -15,5 +15,7 @@ jobs:
        - name: install appstoreconnect
          run: |
           pip3 install codemagic-cli-tools
-          pip3 install appstoreconnect
+       - name: Add Python bin to PATH
+         run: |
+          echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
           which appstoreconnect
