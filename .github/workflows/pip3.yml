@@ -1,0 +1,20 @@
+name: pip3
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run-emulator:
+    runs-on: macos-12
+  
+    steps: 
+       - name: install ppstoreconnect
+         run: |
+          pip install appstoreconnect
+          # Install codemagic-cli-tools
+          pip3 install codemagic-cli-tools
+          which app-store-connect
