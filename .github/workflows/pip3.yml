@@ -16,6 +16,6 @@ jobs:
          run: |
           printenv
           pip3 install codemagic-cli-tools
-          echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
+          echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $PATH
           printenv
           pip3 install appstoreconnect
