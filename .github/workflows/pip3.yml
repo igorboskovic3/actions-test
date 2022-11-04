@@ -19,4 +19,7 @@ jobs:
           pip3 install appstoreconnect
           echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
           env
+       - name: check appstoreconnect   
+         run: |
           command -v appstoreconnect
+          which appstoreconnect
