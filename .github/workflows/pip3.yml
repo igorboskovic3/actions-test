@@ -21,4 +21,4 @@ jobs:
           env
        - name: check appstoreconnect   
          run: |
-          which appstoreconnect
+          which app-store-connect
