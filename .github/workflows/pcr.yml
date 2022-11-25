@@ -14,4 +14,4 @@ jobs:
     steps: 
        - name: PCre
          run: |
-          pcre-config --version
+          pcre2-config --version
