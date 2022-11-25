@@ -15,4 +15,5 @@ jobs:
        - name: PCre
          run: |
           pcre2-config --version
-          brew search pcre
+          brew ls --verbose pcre | grep config
+          brew ls --verbose pcre2 | grep config
