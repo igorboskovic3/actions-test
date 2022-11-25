@@ -9,10 +9,12 @@ on:
 
 jobs:
   run-emulator:
-    runs-on: macos-12
+    runs-on: macos-11
   
     steps: 
        - name: PCre
          run: |
-          pcre2-config --version
-          brew ls --verbose pcre2 | grep config
+          brew install pcre
+          pcre-config --version
+        
+          
