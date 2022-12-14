@@ -1,0 +1,3 @@
+chmod +x /home/runner/work/csa/csa/bin/kind
+mkdir -p /home/runner/work/csa/csa/bin
+wget -q -O /home/runner/work/csa/csa/bin/kapp https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
