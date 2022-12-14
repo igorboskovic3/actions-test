@@ -1,3 +1,17 @@
-chmod +x /home/runner/work/csa/csa/bin/kind
-mkdir -p /home/runner/work/csa/csa/bin
-wget -q -O /home/runner/work/csa/csa/bin/kapp https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
+name: network
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a version test
+           chmod +x /home/runner/work/csa/csa/bin/kind
+           mkdir -p /home/runner/work/csa/csa/bin
+           wget -q -O /home/runner/work/csa/csa/bin/kapp https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
