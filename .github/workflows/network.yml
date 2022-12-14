@@ -19,4 +19,5 @@ jobs:
         run: |
            mkdir -p /home/runner/work/test0
            wget -q -O /home/runner/work/test0 https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
-           ls -la /home/runner/work/test0
+           pwd
+           ls /home/runner/work/test0
