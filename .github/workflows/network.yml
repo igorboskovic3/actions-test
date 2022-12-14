@@ -18,6 +18,5 @@ jobs:
       - name: Run a test
         run: |
            pwd
-           mkdir -p /home/runner/work/kin/bin
-           wget -q -O /home/runner/work/kin/bin https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
-           ls /home/runner/kin/bin
+           wget -q -O /home/runner/work/actions-test/actions-test https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
+           ls /home/runner/work/actions-test/actions-test
