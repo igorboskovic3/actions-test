@@ -17,7 +17,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a test
         run: |
-           mkdir -p /home/runner/work/test0
-           wget -q -O /home/runner/work/test0 https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
            pwd
-           ls /home/runner/work/test0
+           mkdir -p /home/runner/work/kin/bin
+           wget -q -O /home/runner/work/kin/bin https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.37.0/kapp-linux-amd64
+           ls /home/runner/kin/bin
