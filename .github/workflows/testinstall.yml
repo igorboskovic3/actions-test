@@ -11,17 +11,8 @@ jobs:
  windows:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      # Runs a set of commands using the runners shell
-      - name: Run a test
-        run: |
-         #sudo gcloud components install gke-gcloud-auth-plugin
-         #gcloud components install gke-gcloud-auth-plugin
-         gcloud components list
-         sudo apt-get remove google-cloud-sdk
-         sudo snap install google-cloud-sdk --classic
-         #sudo apt-get update && sudo apt-get --only-upgrade install google-cloud-sdk-pubsub-emulator google-cloud-sdk google-cloud-sdk-cloud-build-local google-cloud-sdk-package-go-module google-cloud-sdk-datastore-emulator kubectl google-cloud-sdk-kpt google-cloud-sdk-skaffold google-cloud-sdk-harbourbridge google-cloud-sdk-app-engine-python google-cloud-sdk-cloud-run-proxy google-cloud-sdk-minikube google-cloud-sdk-datalab google-cloud-sdk-app-engine-java google-cloud-sdk-terraform-tools google-cloud-sdk-spanner-emulator google-cloud-sdk-app-engine-grpc google-cloud-sdk-config-connector google-cloud-sdk-firestore-emulator google-cloud-sdk-local-extract google-cloud-sdk-app-engine-go google-cloud-sdk-log-streaming google-cloud-sdk-anthos-auth google-cloud-sdk-bigtable-emulator google-cloud-sdk-nomos google-cloud-sdk-gke-gcloud-auth-plugin google-cloud-sdk-cbt google-cloud-sdk-app-engine-python-extras google-cloud-sdk-kubectl-oidc
-         gcloud components list
-        
+ steps:
+ 
+ - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+ - name: Install Google Cloud SDK components
+   run: yes | gcloud components install beta cloud-firestore-emulator
