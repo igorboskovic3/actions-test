@@ -18,5 +18,6 @@ jobs:
       - name: Run a test
         run: |
          #sudo gcloud components install gke-gcloud-auth-plugin
-         gcloud components install gke-gcloud-auth-plugin
+         #gcloud components install gke-gcloud-auth-plugin
+         gcloud components list
         
