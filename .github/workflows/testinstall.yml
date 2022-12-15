@@ -17,6 +17,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a test
         run: |
-         apt-get update
-         sudo gcloud components install gke-gcloud-auth-plugin
+         #sudo gcloud components install gke-gcloud-auth-plugin
+         gcloud components install gke-gcloud-auth-plugin
         
