@@ -17,5 +17,5 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a test
         run: |
-        sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+         sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
         
