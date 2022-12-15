@@ -20,6 +20,6 @@ jobs:
          #sudo gcloud components install gke-gcloud-auth-plugin
          #gcloud components install gke-gcloud-auth-plugin
          gcloud components list
-         sudo apt-get update core
+         sudo apt-get update google-cloud-sdk google-cloud-sdk-cloud-build-local
          #sudo apt-get update && sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
          gcloud components list
