@@ -23,6 +23,4 @@ jobs:
          sudo apt update
          sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
          echo "##vso[task.setvariable variable=USE_GKE_GCLOUD_AUTH_PLUGIN]True"
-         gcloud components install gke-gcloud-auth-plugin
-         sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
          gcloud components list
