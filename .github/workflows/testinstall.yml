@@ -23,5 +23,5 @@ jobs:
          sudo apt update
          sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
          echo "##vso[task.setvariable variable=USE_GKE_GCLOUD_AUTH_PLUGIN]True"
-         go install k8s.io/client-go@latest
+         go install k8s.io/client-go
          gcloud components list
