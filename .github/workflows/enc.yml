@@ -1,0 +1,21 @@
+name: Foo
+
+on: 
+ workflow_dispatch:
+
+jobs:
+    foo:
+        name: Windows 2022
+        runs-on: windows-2022
+        steps:
+            - uses: Vampire/setup-wsl@v1
+            - shell: wsl-bash {0}
+              run: wslconfig.exe /list | iconv -f UTF-16LE -t UTF-8
+
+    bar:
+        name: Windows 2019
+        runs-on: windows-2019
+        steps:
+            - uses: Vampire/setup-wsl@v1
+            - shell: wsl-bash {0}
+              run: wslconfig.exe /list | iconv -f UTF-16LE -t UTF-8
