@@ -10,7 +10,7 @@ jobs:
         steps:
             - uses: Vampire/setup-wsl@v1
             - shell: wsl-bash {0}
-              run: wsl.exe --list | iconv -f UTF-16LE -t UTF-8
+              run: wslconfig.exe /list | iconv -f UTF-16LE -t UTF-8
 
     bar:
         name: Windows 2019
@@ -18,4 +18,4 @@ jobs:
         steps:
             - uses: Vampire/setup-wsl@v1
             - shell: wsl-bash {0}
-              run: wsl.exe --list | iconv -f UTF-16LE -t UTF-8
+              run: wslconfig.exe /list | iconv -f UTF-16LE -t UTF-8
