@@ -1,4 +1,4 @@
-name: Foo
+name: Enc
 
 on: 
  workflow_dispatch:
