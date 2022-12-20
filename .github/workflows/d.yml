@@ -19,7 +19,7 @@ jobs:
          echo $'{\n    "default-cgroupns-mode":host\n}' | sudo tee /etc/docker/daemon.json
          cat /etc/docker/daemon.json
          docker version
-         docker run
+         docker run -f 20.10.21+azure-2
          cat /etc/docker/daemon.json
 
 
