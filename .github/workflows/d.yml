@@ -10,19 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check Docker Version
-      run: docker --version
-    - name: Install Latest Docker
-      run: |
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
-        sudo apt-get update
-        sudo apt-get install docker-ce
-        docker --version
-    - name: Check Docker Version
+    - name: Run Docker
       run: 
           docker --version
-          run docker
+          run dockerdocker --version
+          cat /etc/docker/daemon.json
           echo $'{\n    "default-cgroupns-mode":host\n}' | sudo tee /etc/docker/daemon.json
           cat /etc/docker/daemon.json
           sudo service docker restart
