@@ -23,5 +23,5 @@ jobs:
       run: 
           sudo service docker restart
           docker version -f '20.10.22`
-          sudo cat /etc/docker/daemon.json
+          cat /etc/docker/daemon.json
 
