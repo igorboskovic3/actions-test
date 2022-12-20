@@ -20,9 +20,10 @@ jobs:
         sudo apt-get install docker-ce
     - name: Check Docker Version
       run: docker --version
-          run docker
+          run docker version -f '20.10.22' 
           sudo rm /etc/docker/daemon.json
           echo $`default-cgroupns-mode:host` | sudo tee /etc/docker/daemon.json
           sudo service docker restart
+          run docker version -f '20.10.22'
             
     
