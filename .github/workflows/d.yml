@@ -12,8 +12,8 @@ jobs:
     steps:
     - name: Run Docker
       run: 
-          docker --version
           run docker
+          docker --version
           cat /etc/docker/daemon.json
           echo $'{\n    "default-cgroupns-mode":host\n}' | sudo tee /etc/docker/daemon.json
           cat /etc/docker/daemon.json
