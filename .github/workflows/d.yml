@@ -21,7 +21,7 @@ jobs:
         docker --version
     - name: Check Docker Version
       run: 
+          docker --version
           sudo service docker restart
-          docker version -f '20.10.22`
           cat /etc/docker/daemon.json
 
