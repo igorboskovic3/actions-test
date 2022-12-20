@@ -22,7 +22,7 @@ jobs:
       run: docker --version
           run docker version -f '20.10.22'
           sudo rm /etc/docker/daemon.json
-          echo $"default-cgroupns-mode:host" | sudo tee /etc/docker/daemon.json
+          echo $`default-cgroupns-mode:host` | sudo tee /etc/docker/daemon.json
           sudo service docker restart
           docker version -f '20.10.22`  
     
