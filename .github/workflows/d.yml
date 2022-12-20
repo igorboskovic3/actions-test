@@ -7,16 +7,20 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
-  build:
+  run_from_container:
+    name: docker
     runs-on: ubuntu-latest
+    container:
+      image: alpine
+
     steps:
-    - name: Run Docker
-      run: 
-          run docker
-          docker --version
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: host
+        run: | 
           cat /etc/docker/daemon.json
           echo $'{\n    "default-cgroupns-mode":host\n}' | sudo tee /etc/docker/daemon.json
           cat /etc/docker/daemon.json
           sudo service docker restart
-          
 
